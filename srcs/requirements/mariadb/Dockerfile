@@ -18,10 +18,10 @@ RUN chown -R mysql:mysql /var/run/mysqld
 
 RUN service mariadb start
 RUN echo \
-	"CREATE DATABASE IF NOT EXISTS $DB_DATABASE; \
-	CREATE USER IF NOT EXISTS '$DB_USER_NAME'@'localhost' IDENTIFIED BY '$DB_USER_PASSWORD'; \
-	GRANT ALL PRIVILEGES ON $DB_DATABASE.* TO '$DB_USER_NAME'@'%' IDENTIFIED BY '$DB_USER_PASSWORD'; \
-	ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD'; \
+	"CREATE DATABASE IF NOT EXISTS wordpress_db; \
+	CREATE USER IF NOT EXISTS 'sciftci'@'localhost' IDENTIFIED BY 'sciftci'; \
+	GRANT ALL PRIVILEGES ON wordpress_db.* TO 'sciftci'@'%' IDENTIFIED BY 'sciftci'; \
+	ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; \
 	FLUSH PRIVILEGES;" > mysql -u root -e
 
 COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
