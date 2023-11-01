@@ -1,10 +1,5 @@
 FROM debian:bookworm
 
-ARG DB_DATABASE
-ARG DB_USER_NAME
-ARG DB_USER_PASSWORD
-ARG DB_ROOT_PASSWORD
-
 RUN apt-get update -y
 RUN apt-get upgrade -y
 
