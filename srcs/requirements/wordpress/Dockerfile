@@ -1,31 +1,25 @@
-FROM debian:bookworm
+# Use a lightweight base image
+FROM debian:bookworm-slim
 
-RUN apt-get update -y
-RUN apt-get upgrade -y
+# Combine the update and upgrade commands into one to minimize image layers
+RUN apt-get update -y && \
+    apt-get upgrade -y && \
+    apt-get install -y dumb-init curl less php-fpm php-mysql php-mysqli mariadb-client && \
+    apt-get clean -y
 
-RUN apt-get install -y dumb-init
+# Install the WordPress CLI directly from the official repository
+RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x /usr/local/bin/wp
 
-RUN apt-get install -y curl less
-
-# Install the packages to handle PHP scripts, as well as the MariaDB client
-RUN apt-get install -y \
-	php-fpm php-mysql php-mysqli \
-	mariadb-client
-
-RUN apt-get clean -y
-
-# Install the wordpress CLI. This isn't a package that we can install via apt,
-# so we need to download it off github and set it to executable
-RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp \
-	&& chmod +x /usr/local/bin/wp
-
+# Create the directory for WordPress files
 RUN mkdir -p /var/www/html/wordpress
 
+# Copy configuration files
 COPY ./conf/setup.sh /tmp/
+COPY ./conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
-COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
-
+# Expose the PHP-FPM port
 EXPOSE 9000
 
-ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
-CMD ["/bin/bash", "/tmp/setup.sh" ]
+# Combine ENTRYPOINT and CMD for a single command
+CMD ["dumb-init", "/bin/bash", "/tmp/setup.sh"]
