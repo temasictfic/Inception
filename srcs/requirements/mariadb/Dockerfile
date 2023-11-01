@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM debian:buster
 
 ARG DB_DATABASE
 ARG DB_USER_NAME
