@@ -21,11 +21,14 @@ RUN apt-get clean -y
 RUN mkdir -p /var/run/mysqld
 RUN chown -R mysql:mysql /var/run/mysqld
 
-COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY ./conf/init_db.sql /var/www/
+RUN service mysql start \
+	&& mysql -u root -e \
+	"CREATE DATABASE IF NOT EXISTS $DB_DATABASE; \
+	ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD'; \
+	GRANT ALL PRIVILEGES ON $DB_DATABASE.* TO '$DB_USER_NAME'@'%' IDENTIFIED BY '$DB_USER_PASSWORD'; \
+	FLUSH PRIVILEGES;"
 
-RUN service mysql start
-RUN mysql -u root < /var/www/init_db.sql
+COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 EXPOSE 3306
 
