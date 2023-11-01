@@ -14,7 +14,7 @@ services:
     networks:
       - inception
     volumes:
-      - wordpress:/var/www/html/wordpress
+      - wordpress:/var/www/wordpress
     ports:
       - 443:443
 
@@ -31,7 +31,7 @@ services:
     networks:
       - inception
     volumes:
-      - wordpress:/var/www/html/wordpress
+      - wordpress:/var/www/wordpress
 
   mariadb:
     build:
