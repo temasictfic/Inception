@@ -1,16 +1,16 @@
 DOCKER = sudo docker
 COMPOSE = sudo docker-compose -f srcs/docker-compose.yml
-MARIADB_VOLUME = /home/${DB_USER_NAME}/data/mariadb
-WORDPRESS_VOLUME = /home/${WP_ADMIN_NAME}/data/wordpress
+MARIADB_VOLUME = /home/sciftci/data/mariadb
+WORDPRESS_VOLUME = /home/sciftci/data/wordpress
 DEPENDENCIES = $(MARIADB_VOLUME) $(WORDPRESS_VOLUME)
 
 all: up
 
 $(MARIADB_VOLUME):
-	mkdir -p $(MARIADB_VOLUME)
+	sudo mkdir -p $(MARIADB_VOLUME)
 
 $(WORDPRESS_VOLUME):
-	mkdir -p $(WORDPRESS_VOLUME)
+	sudo mkdir -p $(WORDPRESS_VOLUME)
 
 ps:
 	$(COMPOSE) ps
