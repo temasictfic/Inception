@@ -7,7 +7,6 @@ RUN apt-get update -y \
 
 RUN mkdir -p /var/run/mysqld \
     && chown -R mysql:mysql /var/run/mysqld \
-    && chown -R mysql:mysql /docker-entrypoint-initdb.d/
 
 COPY ./conf/mariadb.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
