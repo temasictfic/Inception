@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM alpine:3.18
 
 RUN apt-get update -y
 RUN apt-get upgrade -y

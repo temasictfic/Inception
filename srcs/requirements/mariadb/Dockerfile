@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM alpine:3.18
 
 ARG DB_DATABASE
 ARG DB_USER_NAME
