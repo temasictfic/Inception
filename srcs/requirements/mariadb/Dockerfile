@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bookworm
 
 ARG DB_DATABASE
 ARG DB_USER_NAME
@@ -21,12 +21,12 @@ RUN apt-get clean -y
 RUN mkdir -p /var/run/mysqld
 RUN chown -R mysql:mysql /var/run/mysqld
 
-RUN service mysql start \
-	&& mysql -u root -e \
+RUN service mysql start
+RUN echo \
 	"CREATE DATABASE IF NOT EXISTS $DB_DATABASE; \
 	ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD'; \
 	GRANT ALL PRIVILEGES ON $DB_DATABASE.* TO '$DB_USER_NAME'@'%' IDENTIFIED BY '$DB_USER_PASSWORD'; \
-	FLUSH PRIVILEGES;"
+	FLUSH PRIVILEGES;" > mysql -u root -e
 
 COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 
