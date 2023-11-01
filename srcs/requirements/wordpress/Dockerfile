@@ -10,7 +10,7 @@ RUN apt-get install -y curl less
 # Install the packages to handle PHP scripts, as well as the MariaDB client
 RUN apt-get install -y \
 	php-fpm php-mysql php-mysqli \
-	mariadb-client=10.3
+	mariadb-client
 
 RUN apt-get clean -y
 
