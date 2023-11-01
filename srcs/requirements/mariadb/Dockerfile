@@ -10,10 +10,8 @@ RUN mkdir -p /var/run/mysqld \
 
 COPY ./conf/mariadb.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
-RUN service mariadb start
-
 # Copy the SQL initialization script into the container
-COPY ./conf/initdb.sh /docker-entrypoint-initdb.d/initdb.sh
+COPY .conf/init.sql /docker-entrypoint-initdb.d/
 
 
 # Start MariaDB service
