@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:buster
 
 ARG DB_DATABASE
 ARG DB_USER_NAME
