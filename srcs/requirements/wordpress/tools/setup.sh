@@ -23,4 +23,4 @@ wp user create --path=/var/www/html/wordpress --allow-root $WP_USER_NAME $WP_USE
 chown www-data:www-data /var/www/html/wordpress/wp-content/uploads --recursive
 
 mkdir -p /run/php/
-php-fpm8.2 -F
+php-fpm7.3 -F
