@@ -2,7 +2,7 @@
 
 echo "== Installing and setting up Wordpress =="
 
-WP_DIR="/var/www/wordpress/"
+WP_DIR="/var/www/html/wordpress/"
 WP_CONF="wp-config.php"
 
 if [ ! -d $WP_DIR ]; then
