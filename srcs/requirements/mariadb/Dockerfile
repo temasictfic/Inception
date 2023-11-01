@@ -21,7 +21,7 @@ RUN apt-get clean -y
 RUN mkdir -p /var/run/mysqld
 RUN chown -R mysql:mysql /var/run/mysqld
 
-RUN service mysql start
+RUN service mariadb start
 RUN echo \
 	"CREATE DATABASE IF NOT EXISTS $DB_DATABASE; \
 	ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD'; \
