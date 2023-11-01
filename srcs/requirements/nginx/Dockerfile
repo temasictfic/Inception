@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:buster
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
@@ -11,7 +11,7 @@ RUN apt-get clean -y
 
 
 # Generate SSL certificate
-RUN openssl req -x509 -newkey rsa:4096 -subj /C=TR -nodes -keyout /etc/ssl/sciftci.42.fr.key -out /etc/ssl/sciftci.42.fr.crt
+RUN openssl req -x509 -newkey rsa:4096 -subj /C=FR -nodes -keyout /etc/ssl/sciftci.42.fr.key -out /etc/ssl/sciftci.42.fr.crt
 
 # Copy NGINX config files
 COPY ./conf/nginx.conf /etc/nginx/sites-available/sciftci.42.fr.conf
