@@ -19,7 +19,7 @@ RUN apt-get clean -y
 # commands we invoke and folders we use are as if we were using MySQL
 
 RUN mkdir -p /var/run/mysqld
-RUN chown -R sciftci:sciftci /var/run/mysqld
+RUN chown -R mysql:mysql /var/run/mysqld
 
 COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY ./conf/init_db.sql /var/www/init_db.sql
