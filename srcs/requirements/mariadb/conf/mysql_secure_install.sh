@@ -14,9 +14,9 @@ SECURE_MYSQL=$(expect -c "
     expect \"Change the root password?\"
     send \"y\r\"
     expect \"New password:\"
-    send \"$MYSQL_ROOT_PASSWORD\r\"
+    send \"$DB_ROOT_PASSWORD\r\"
     expect \"Re-enter new password:\"
-    send \"$MYSQL_ROOT_PASSWORD\r\"
+    send \"$DB_ROOT_PASSWORD\r\"
     expect \"Remove anonymous users?\"
     send \"y\r\"
     expect \"Disallow root login remotely?\"
@@ -30,9 +30,9 @@ SECURE_MYSQL=$(expect -c "
 
 echo "$SECURE_MYSQL"
 
-mysql -uroot -p$MYSQL_ROOT_PASSWORD <<EOF
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
-GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
+mysql -uroot -p$DB_ROOT_PASSWORD <<EOF
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$DB_ROOT_PASSWORD';
+GRANT ALL PRIVILEGES ON $DB_DATABASE.* TO '$DB_USER_NAME'@'%' IDENTIFIED BY '$DB_USER_PASSWORD';
 FLUSH PRIVILEGES;
 EOF
 
