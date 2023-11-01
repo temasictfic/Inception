@@ -22,4 +22,5 @@ COPY ./conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 EXPOSE 9000
 
 # Combine ENTRYPOINT and CMD for a single command
-CMD ["dumb-init", "/bin/bash", "/tmp/setup.sh"]
+ENTRYPOINT [ "/usr/bin/dumb-init", "--" ] 
+CMD ["/bin/bash", "/tmp/setup.sh"]

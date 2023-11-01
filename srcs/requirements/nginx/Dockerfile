@@ -20,5 +20,6 @@ RUN ln -s /etc/nginx/sites-available/sciftci.42.fr.conf /etc/nginx/sites-enabled
 EXPOSE 443
 
 # Use CMD instead of ENTRYPOINT to make it easier to override
-CMD ["dumb-init", "nginx", "-g", "daemon off;"]
+ENTRYPOINT [ "/usr/bin/dumb-init", "--" ] 
+CMD ["nginx", "-g", "daemon off;"]
 

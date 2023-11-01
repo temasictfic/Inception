@@ -2,20 +2,22 @@ FROM debian:bookworm-slim
 
 RUN apt-get update -y \
     && apt-get upgrade -y \
-    && apt-get install -y dumb-init mariadb-server mariadb-client \
+    && apt-get install -y dumb-init mariadb-server \
     && apt-get clean -y
 
 RUN mkdir -p /var/run/mysqld \
     && chown -R mysql:mysql /var/run/mysqld
 
-# Copy the SQL initialization script into the container
-COPY ./conf/init.sql /docker-entrypoint-initdb.d/
-
 COPY ./conf/mariadb.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-RUN service mariadb start && mysql -u root < /docker-entrypoint-initdb.d/init.sql
+
+# Copy the SQL initialization script into the container
+COPY ./conf/init.sh /tmp/
+
+RUN service mariadb start && /bin/bash /tmp/init.sh
 
 # Start MariaDB service
-CMD ["dumb-init", "mysqld", "--bind-address=0.0.0.0"]
+ENTRYPOINT [ "/usr/bin/dumb-init", "--" ] 
+CMD ["mysqld", "--bind-address=0.0.0.0"]
 
 EXPOSE 3306
 
