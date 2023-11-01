@@ -1,37 +1,14 @@
-FROM debian:bookworm
+FROM        debian:bookworm
 
-ARG DB_DATABASE
-ARG DB_USER_NAME
-ARG DB_USER_PASSWORD
-ARG DB_ROOT_PASSWORD
+EXPOSE      3306
 
-RUN apt-get update -y
-RUN apt-get upgrade -y
+RUN         apt -y update\
+                && apt -y install dumb-init mariadb-server expect\
+                && sed -i 's/# port = 3306/port = 3306/' /etc/mysql/mariadb.cnf\
+                && sed -i 's/socket = \/run\/mysqld\/mysqld.sock/# socket = \/run\/mysqld\/mysqld.sock/' /etc/mysql/mariadb.cnf\
+                && sed -i 's/bind-address            = 127.0.0.1/bind-address            = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
-RUN apt-get install -y dumb-init
-
-RUN apt-get install -y mariadb-server
-
-RUN apt-get clean -y
-
-# You notice we call mysql and not mariadb. This is because MariaDB
-# is a fork of MySQL, even though they are different the name of the
-# commands we invoke and folders we use are as if we were using MySQL
-
-RUN mkdir -p /var/run/mysqld
-RUN chown -R mysql:mysql /var/run/mysqld
-
-RUN service mariadb start
-RUN echo \
-	"CREATE DATABASE IF NOT EXISTS wordpress; \
-	CREATE USER IF NOT EXISTS 'sciftci'@'%' IDENTIFIED BY 'sciftci';\
-	ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; \
-	GRANT ALL PRIVILEGES ON wordpress.* TO 'sciftci'@'%' IDENTIFIED BY 'sciftci'; \
-	FLUSH PRIVILEGES;" > mysql -u root -e
-
-COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
-
-EXPOSE 3306
+COPY        conf/mysql_secure_install.sh   /tmp/
 
 ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
-CMD ["mysqld", "--bind-address=0.0.0.0" ]
+CMD  ["sh", "/tmp/mysql_secure_install.sh"]
