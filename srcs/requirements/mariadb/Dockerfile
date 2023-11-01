@@ -24,7 +24,8 @@ RUN chown -R mysql:mysql /var/run/mysqld
 COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY ./conf/init_db.sql /var/www/init_db.sql
 
-RUN service mariadb start && mysql < /var/www/init_db.sql
+RUN service mariadb start
+RUN mysql < /var/www/init_db.sql
 
 
 EXPOSE 3306
