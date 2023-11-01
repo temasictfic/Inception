@@ -1,8 +1,5 @@
 FROM debian:bookworm
 
-ARG DOMAIN_NAME
-ARG SUBJ
-
 RUN apt-get update -y
 RUN apt-get upgrade -y
 
@@ -19,7 +16,7 @@ COPY ./conf/nginx.conf /etc/nginx/sites-available/nginx.conf
 RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf
 
 # Generate SSL certificate
-RUN openssl req -x509 -newkey rsa:4096 -subj $SUBJ -nodes -days 365 -keyout /etc/ssl/nginx.key -out /etc/ssl/nginx.crt
+RUN openssl req -x509 -newkey rsa:4096 -subj "/C=TR/ST=KOCAELI/L=GEBZE/O=42Kocaeli/CN=sciftci.42.fr" -nodes -days 365 -keyout /etc/ssl/nginx.key -out /etc/ssl/nginx.crt
 
 EXPOSE 443
 
