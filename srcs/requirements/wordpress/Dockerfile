@@ -19,11 +19,11 @@ RUN apt-get clean -y
 RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp \
 	&& chmod +x /usr/local/bin/wp
 
-RUN mkdir -p /var/www/wordpress
+RUN mkdir -p /var/www/html/wordpress
 
-COPY ./conf/setup.sh /tmp/
+COPY ./tools/setup.sh /tmp/
 
-COPY ./conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
+COPY ./tools/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
 EXPOSE 9000
 

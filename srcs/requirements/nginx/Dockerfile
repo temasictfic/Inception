@@ -9,14 +9,13 @@ RUN apt-get install -y openssl nginx
 
 RUN apt-get clean -y
 
-RUN mkdir /etc/nginx/ssl
-
-# Copy NGINX config files
-COPY ./conf/nginx.conf /etc/nginx/sites-available/nginx.conf
-RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf
 
 # Generate SSL certificate
-RUN openssl req -x509 -newkey rsa:4096 -subj "/C=TR/ST=KOCAELI/L=GEBZE/O=42Kocaeli/CN=sciftci.42.fr" -nodes -days 365 -keyout /etc/ssl/nginx.key -out /etc/ssl/nginx.crt
+RUN openssl req -x509 -newkey rsa:4096 -subj /C=TR -nodes -keyout /etc/ssl/sciftci.42.fr.key -out /etc/ssl/sciftci.42.fr.crt
+
+# Copy NGINX config files
+COPY ./conf/nginx.conf /etc/nginx/sites-available/sciftci.42.fr.conf
+RUN ln -s /etc/nginx/sites-available/sciftci.42.fr.conf /etc/nginx/sites-enabled/sciftci.42.fr.conf
 
 EXPOSE 443
 

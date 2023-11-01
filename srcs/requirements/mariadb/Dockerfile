@@ -1,5 +1,10 @@
 FROM debian:bookworm
 
+ARG DB_DATABASE
+ARG DB_USER_NAME
+ARG DB_USER_PASSWORD
+ARG DB_ROOT_PASSWORD
+
 RUN apt-get update -y
 RUN apt-get upgrade -y
 
@@ -16,13 +21,12 @@ RUN apt-get clean -y
 RUN mkdir -p /var/run/mysqld
 RUN chown -R mysql:mysql /var/run/mysqld
 
-RUN service mariadb start
-RUN echo \
-	"CREATE DATABASE IF NOT EXISTS wordpress_db; \
-	CREATE USER IF NOT EXISTS 'sciftci'@'localhost' IDENTIFIED BY 'sciftci'; \
-	GRANT ALL PRIVILEGES ON wordpress_db.* TO 'sciftci'@'%' IDENTIFIED BY 'sciftci'; \
-	ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; \
-	FLUSH PRIVILEGES;" > mysql -u root -e
+RUN service mysql start \
+	&& mysql -u root -e \
+	"CREATE DATABASE IF NOT EXISTS $DB_DATABASE; \
+	ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD'; \
+	GRANT ALL PRIVILEGES ON $DB_DATABASE.* TO '$DB_USER_NAME'@'%' IDENTIFIED BY '$DB_USER_PASSWORD'; \
+	FLUSH PRIVILEGES;"
 
 COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 
