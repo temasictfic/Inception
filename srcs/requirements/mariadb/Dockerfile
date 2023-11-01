@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bookworm
 
 ARG DB_DATABASE
 ARG DB_USER_NAME
@@ -24,8 +24,8 @@ RUN chown -R mysql:mysql /var/run/mysqld
 COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY ./conf/init_db.sql /var/www/init_db.sql
 
-RUN service mysql start
-RUN mysql -u root -e < /var/www/init_db.sql
+RUN service mariadb start
+RUN mysql -u root < /var/www/init_db.sql
 
 
 EXPOSE 3306
