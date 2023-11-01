@@ -18,8 +18,8 @@ RUN apt-get clean -y
 # is a fork of MySQL, even though they are different the name of the
 # commands we invoke and folders we use are as if we were using MySQL
 
-RUN mkdir -p /var/run/mariadbd
-RUN chown -R mysql:mysql /var/run/mariadbd
+RUN mkdir -p /var/run/mysqld
+RUN chown -R mysql:mysql /var/run/mysqld
 
 COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY ./conf/init_db.sql /var/www/init_db.sql
@@ -31,4 +31,4 @@ RUN mysql < /var/www/init_db.sql
 EXPOSE 3306
 
 ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
-CMD ["mariadbd", "--bind-address=0.0.0.0" ]
+CMD ["mysqld", "--bind-address=0.0.0.0" ]
