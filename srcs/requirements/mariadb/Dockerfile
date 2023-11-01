@@ -19,5 +19,6 @@ COPY        conf/mysql_secure_install.sh   /tmp/
 
 EXPOSE      3306
 
-ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
-CMD  ["sh", "/tmp/mysql_secure_install.sh"]
+ENTRYPOINT [ "/tmp/mysql_secure_install.sh" ]
+#ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
+#CMD  ["sh", "/tmp/mysql_secure_install.sh"]
