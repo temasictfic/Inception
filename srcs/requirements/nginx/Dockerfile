@@ -14,12 +14,12 @@ RUN apt-get clean -y
 
 RUN mkdir /etc/nginx/ssl
 
-# Generate SSL certificate
-RUN openssl req -x509 -newkey rsa:4096 -subj $SUBJ -nodes -days 365 -keyout /etc/ssl/nginx.key -out /etc/ssl/nginx.crt
-
 # Copy NGINX config files
 COPY ./conf/nginx.conf /etc/nginx/sites-available/nginx.conf
 RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf
+
+# Generate SSL certificate
+RUN openssl req -x509 -newkey rsa:4096 -subj $SUBJ -nodes -days 365 -keyout /etc/ssl/nginx.key -out /etc/ssl/nginx.crt
 
 EXPOSE 443
 
