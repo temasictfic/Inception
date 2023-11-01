@@ -21,12 +21,13 @@ RUN apt-get clean -y
 RUN mkdir -p /var/run/mysqld
 RUN chown -R mysql:mysql /var/run/mysqld
 
-RUN service mysql start \
-	&& mysql -u root -e \
+RUN service mariadb start
+RUN echo \
 	"CREATE DATABASE IF NOT EXISTS $DB_DATABASE; \
-	ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD'; \
+	CREATE USER IF NOT EXISTS '$DB_USER_NAME'@'localhost' IDENTIFIED BY '$DB_USER_PASSWORD'; \
 	GRANT ALL PRIVILEGES ON $DB_DATABASE.* TO '$DB_USER_NAME'@'%' IDENTIFIED BY '$DB_USER_PASSWORD'; \
-	FLUSH PRIVILEGES;"
+	ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD'; \
+	FLUSH PRIVILEGES;" > mysql -u root -e
 
 COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 
