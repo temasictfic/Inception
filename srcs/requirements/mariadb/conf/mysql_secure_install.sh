@@ -38,7 +38,7 @@ ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD';
 FLUSH PRIVILEGES;
 EOF
 
-service mariadb stop
+#service mariadb stop
 
 mysqld_safe
 
