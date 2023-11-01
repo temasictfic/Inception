@@ -10,11 +10,12 @@ RUN apt-get install -y mariadb-server expect
 RUN apt-get clean -y
 
 
-RUN sed -i 's/# port = 3306/port = 3306/' /etc/mysql/mariadb.cnf\
-	&& sed -i 's/socket = \/run\/mysqld\/mysqld.sock/# socket = \/run\/mysqld\/mysqld.sock/' /etc/mysql/mariadb.cnf\
-	&& sed -i 's/bind-address            = 127.0.0.1/bind-address            = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
+RUN mkdir -p /var/run/mysqld
+RUN chown -R mysql:mysql /var/run/mysqld
 
+COPY ./conf/mariadb.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY        conf/mysql_secure_install.sh   /tmp/
+
 RUN chmod +x /tmp/mysql_secure_install.sh
 
 EXPOSE      3306
