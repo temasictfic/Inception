@@ -10,7 +10,7 @@ RUN apt-get upgrade -y
 
 RUN apt-get install -y dumb-init
 
-RUN apt-get install -y mariadb-server=10.3
+RUN apt-get install -y mariadb-server-core=10.3
 
 RUN apt-get clean -y
 
