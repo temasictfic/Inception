@@ -13,6 +13,7 @@ COPY ./conf/mariadb.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 # Copy the SQL initialization script into the container
 COPY ./conf/init.sql /docker-entrypoint-initdb.d/
 
+RUN service mariadb start
 RUN mysql -u root < /docker-entrypoint-initdb.d/init.sql
 
 # Start MariaDB service
