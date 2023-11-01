@@ -8,13 +8,12 @@ RUN apt-get update -y \
 RUN mkdir -p /var/run/mysqld \
     && chown -R mysql:mysql /var/run/mysqld
 
+
 COPY ./conf/mariadb.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Copy the SQL initialization script into the container
 COPY ./conf/init.sql /docker-entrypoint-initdb.d/
-
-RUN service mariadb start
-RUN mysql -u root < /docker-entrypoint-initdb.d/init.sql
+RUN chown -R mysql:mysql /docker-entrypoint-initdb.d
 
 # Start MariaDB service
 CMD ["dumb-init", "mysqld", "--bind-address=0.0.0.0"]
