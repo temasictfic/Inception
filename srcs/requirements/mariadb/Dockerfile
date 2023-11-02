@@ -11,14 +11,14 @@ RUN mkdir -p /var/run/mysqld \
 COPY ./conf/mariadb.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Copy the SQL initialization script into the container
-COPY ./conf/init.sh /tmp/
-#COPY ./conf/mysql_safe_install.sh /tmp/
+#COPY ./conf/init.sh /tmp/
+COPY ./conf/mysql_safe_install.sh /tmp/
 #RUN service mariadb start && /bin/bash /tmp/init.sh
 
 # Start MariaDB service
 ENTRYPOINT [ "/usr/bin/dumb-init", "--" ] 
-#CMD ["/bin/bash", "/tmp/mysql_safe_install.sh"]
-CMD ["/bin/bash", "/tmp/init.sh"]
+#CMD ["/bin/bash", "/tmp/init.sh"]
+CMD ["/bin/bash", "/tmp/mysql_safe_install.sh"]
 
 EXPOSE 3306
 
