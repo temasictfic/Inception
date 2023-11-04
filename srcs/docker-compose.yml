@@ -1,43 +1,6 @@
 version: "3.9"
 
 services:
-  nginx:
-    build:
-      context: ./requirements/nginx
-    image: nginx
-    container_name: nginx
-    restart: always
-    depends_on:
-      - wordpress
-    env_file:
-      - .env
-    networks:
-      - inception
-    volumes:
-      - wordpress:/var/www/html/wordpress
-    ports:
-      - 443:443
-
-  wordpress:
-    build:
-      context: ./requirements/wordpress
-    image: wordpress
-    container_name: wordpress
-    restart: always
-    depends_on:
-      - mariadb
-    env_file:
-      - .env
-    networks:
-      - inception
-    volumes:
-      - wordpress:/var/www/html/wordpress
-    environment:
-      - DB_HOST=${DB_HOST}
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USER_NAME=${DB_USER_NAME}
-      - DB_USER_PASSWORD=${DB_USER_PASSWORD}
-
   mariadb:
     build:
       context: ./requirements/mariadb
@@ -63,6 +26,42 @@ services:
       - WP_USER_NAME=${WP_USER_NAME}
       - WP_USER_PASSWORD=${WP_USER_PASSWORD}
       - WP_USER_EMAIL=${WP_USER_EMAIL}
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    restart: always
+    depends_on:
+      - mariadb
+    env_file:
+      - .env
+    networks:
+      - inception
+    volumes:
+      - wordpress:/var/www/html/wordpress
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USER_NAME=${DB_USER_NAME}
+      - DB_USER_PASSWORD=${DB_USER_PASSWORD}
+  nginx:
+    build:
+      context: ./requirements/nginx
+    image: nginx
+    container_name: nginx
+    restart: always
+    depends_on:
+      - wordpress
+    env_file:
+      - .env
+    networks:
+      - inception
+    volumes:
+      - wordpress:/var/www/html/wordpress
+    ports:
+      - 443:443
+
 
 networks:
   inception:

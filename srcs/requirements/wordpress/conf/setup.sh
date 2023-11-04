@@ -15,6 +15,8 @@ wp core install --path=/var/www/html/wordpress --allow-root --url=$DOMAIN_NAME -
 
 wp plugin update --path=/var/www/html/wordpress --allow-root --all
 
+wp db create --allow-root
+
 # Create default user
 wp user create --path=/var/www/html/wordpress --allow-root $WP_USER_NAME $WP_USER_EMAIL --user_pass=$WP_USER_PASSWORD
 
