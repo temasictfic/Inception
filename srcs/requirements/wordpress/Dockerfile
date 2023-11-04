@@ -15,7 +15,7 @@ RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh
 RUN mkdir -p /var/www/html/wordpress
 
 # Copy configuration files
-COPY ./conf/setup.sh /tmp/
+COPY ./tools/setup.sh /tmp/
 COPY ./conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
 # Expose the PHP-FPM port
