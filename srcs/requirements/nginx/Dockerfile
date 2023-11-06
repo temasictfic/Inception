@@ -11,7 +11,8 @@ RUN apt-get update -y \
 RUN openssl req -x509 -newkey rsa:4096 -subj '/CN=sciftci.42.fr' -nodes -days 365 -keyout /etc/ssl/sciftci.42.fr.key -out /etc/ssl/sciftci.42.fr.crt
 
 # Copy NGINX config files
-COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/nginx.conf /etc/nginx
+COPY conf/www.conf /etc/nginx/conf.d
 
 # Enable the site by creating a symbolic link
 #RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
