@@ -40,7 +40,7 @@ EOF
 
 service mariadb stop
 
-service mariadb start
+mysqld
 
 else
 
