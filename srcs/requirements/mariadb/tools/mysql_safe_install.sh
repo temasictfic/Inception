@@ -38,9 +38,9 @@ GRANT ALL PRIVILEGES ON $DB_DATABASE.* TO '$DB_USER_NAME'@'%' IDENTIFIED BY '$DB
 FLUSH PRIVILEGES;
 EOF
 
-service mariadb stop
+#service mariadb stop
 
-mysqld
+#mysqld
 
 else
 
