@@ -12,10 +12,10 @@ RUN openssl req -x509 -newkey rsa:4096 -subj '/CN=sciftci.42.fr' -nodes -days 36
 
 # Copy NGINX config files
 COPY conf/nginx.conf /etc/nginx
-COPY conf/default.conf /etc/nginx/sites-available/default
+COPY conf/default.conf /etc/nginx/sites-enabled/default
 
 # Enable the site by creating a symbolic link
-RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+#RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Expose the required port
 EXPOSE 443
